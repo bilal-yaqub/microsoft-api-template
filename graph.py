@@ -25,8 +25,22 @@ class Graph:
                                           scopes=['https://graph.microsoft.com/.default'])
 
 
-    # Define an API call here
-    def api_call(self):
-        #TO-DO
-        return
+    # Aquiring all the teams in the organisation 
+    def get_all_teams(self):
+        endpoint = '/groups'
+        select = 'id, displayName'
 
+        request_url = f'{endpoint}?$select={select}'
+
+        response = self.app_client.get(request_url)
+        return response.json()
+
+    # Getting a list of all the members of the team
+    def get_members(self, team_id):
+        endpoint = f'/groups/{team_id}/members'
+        select = 'id, userPrincipalName'
+
+        request_url = f'{endpoint}?$select={select}'
+
+        response = self.app_client.get(request_url)
+        return response.json()
